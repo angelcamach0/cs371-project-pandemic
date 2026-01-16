@@ -416,10 +416,10 @@ public class Board {
 			int col_neighbor = colpos + c_g;
 			
 			
-			if(isLand(rowpos + r_g,colpos + c_g) == false)
-				return;
-			if(r_g == 0 && c_g == 0)
-				return;
+			if (isLand(rowpos + r_g, colpos + c_g) == false)
+				continue;
+			if (r_g == 0 && c_g == 0)
+				continue;
 			
 			
 			double 	amount_increased = loc.inf/1000;
