@@ -1,6 +1,6 @@
 # cs371-project-pandemic
 JavaFX-based pandemic simulation with configurable scenarios, travel routes, and charts.
-
+Made during the covid 19 pandemic. for software development class NMSU.
 ## Purpose and technical scope
 This project demonstrates:
 - A discrete-time simulation engine (infection spread, recovery, death).
