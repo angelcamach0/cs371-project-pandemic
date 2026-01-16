@@ -1,0 +1,9 @@
+# Java build artifacts
+*.class
+
+# Simulation build outputs
+main_workspace/working_sim/out/
+main_workspace/working_sim/PandemicSim.jar
+
+# OS / editor
+.DS_Store
