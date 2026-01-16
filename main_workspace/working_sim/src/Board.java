@@ -620,11 +620,9 @@ public class Board {
 //			BoardUI.setInfectedColor(loc, true);
 //		}
 		
-		for (int i = 0; i < nrows; ++i) {
-			for (int j = 0; j < ncols; ++j) { 
-				BoardUI.setInfectedColor(locations[i][j], true);
-			} // end j
-		} // end i 
+		for (Location loc : infectedLocations) {
+			BoardUI.setInfectedColor(loc, true);
+		}
 		
 		System.out.println("End of iter");
 		
