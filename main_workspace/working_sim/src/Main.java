@@ -473,7 +473,7 @@ public class Main extends Application {
 							GraphsMaker.healthy = testBoard.getTotalHealthy() + testBoard.getTotalRecovered();;
 							GraphsMaker.dead = testBoard.getTotalDeath();
 							GraphsMaker.infected = testBoard.getTotalInfected();
-							if(testBoard.getIteration() % 20 == 0) {
+							if (testBoard.getIteration() % 20 == 0 && status.i < GraphsMaker.MAX_SAMPLES) {
 								GraphsMaker.itermult[status.i] = testBoard.getIteration();
 								GraphsMaker.infectedOniteration[status.i] = testBoard.getTotalInfected();
 								GraphsMaker.deadOniteration[status.i] = testBoard.getTotalDeath();
