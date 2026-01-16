@@ -213,6 +213,33 @@ public class Board {
 			e.printStackTrace();
 		} // end catch
 		
+		if (image == null) {
+			System.err.println("Map image not found. Using fallback grid.");
+			nrows = 20;
+			ncols = 20;
+			locations = new Location[nrows][ncols];
+			
+			double startpop = 100000;
+			totalHealthy = startpop * nrows * ncols;
+			totalAlive = startpop * nrows * ncols;
+			totalStartPop = startpop * nrows * ncols;
+			
+			for (int i = 0; i < nrows; ++i) {
+				for (int j = 0; j < ncols; ++j) {
+					locations[i][j] = new Location(i, j);
+					Location loc = locations[i][j];
+					loc.pop = startpop;
+					loc.alive = startpop;
+					loc.healthy = startpop;
+		        	loc.xxx = Math.random();
+		        	loc.color = BoardUI.LAND;
+				}
+			}
+			
+			putInfection(nrows / 2, ncols / 2, 50);
+			return;
+		}
+		
 		int width = image.getWidth();
 		int height = image.getHeight();	
 		double total_land = 0.0;

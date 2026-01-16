@@ -239,6 +239,11 @@ public class AirportConfigFileManager {
 			e.printStackTrace();
 		} // end catch
 		
+		if (image == null) {
+			System.err.println("Map image not found. Cannot configure airports.");
+			return gridPane;
+		}
+		
 		// set up a temporary Board, which we only use land attribute and cityLevel
         int nrows = image.getHeight();
         int ncols = image.getWidth();
