@@ -16,6 +16,7 @@ import javax.imageio.ImageIO;
 import javafx.scene.image.ImageView;
 
 public class Board {
+	private static final String WORKING_SIM_ROOT = "main_workspace/working_sim/";
 	// locations
 	private Location locations[][];
 	private int nrows;
@@ -206,7 +207,7 @@ public class Board {
 		
 		BufferedImage image = null;
 		try {
-			image = ImageIO.read(new File("bw_world.jpg"));
+			image = ImageIO.read(resolveWorkingSimFile("bw_world.jpg"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -726,5 +727,13 @@ public class Board {
 	public static double distance(int row1, int col1, int row2, int col2) {	
 		return Math.sqrt(((row2 - row1)*(row2 - row1)) + ((col2-col1)*(col2-col1)));
 	} // end calc_distance
+
+	private static File resolveWorkingSimFile(String relativePath) {
+		File direct = new File(relativePath);
+		if (direct.isFile())
+			return direct;
+		
+		return new File(WORKING_SIM_ROOT + relativePath);
+	}
 	
 }//end class board

@@ -38,6 +38,7 @@ import javafx.stage.Stage;
 public class AirportConfigFileManager {
 	private static final String PATH_TO_CONFIG_FOLDER = "config_files/";
 	private static final int LOWEST_LEVEL = 1;
+	private static final String WORKING_SIM_ROOT = "main_workspace/working_sim/";
 	
 	private LinkedList<String> configFiles;
 	
@@ -80,7 +81,7 @@ public class AirportConfigFileManager {
 		FileReader fr = null;
 		BufferedReader br = null;
 		try {
-			fr = new FileReader(AirportConfigFileManager.createPathToConfigFile(configName));
+			fr = new FileReader(resolveConfigFile(configName));
 			br = new BufferedReader(fr);
 			
 			for (String location = null; (location = br.readLine()) != null && !location.isEmpty();) {
@@ -111,7 +112,7 @@ public class AirportConfigFileManager {
 		if (configName == null) throw new IllegalArgumentException("Config name cannot be null");
 		if (configName.isEmpty()) throw new IllegalArgumentException("Config name cannot be empty");
 		
-		File file = new File(createPathToConfigFile(configName));
+		File file = resolveConfigFile(configName);
 		
 		// check if the file is a directory, as well as checking if it exists
 		if (file.isDirectory())
@@ -146,7 +147,7 @@ public class AirportConfigFileManager {
 				content += city.row + " " + city.col + " " + (int) city.cityLevel + "\n";
 			
 			// write it in
-			fw = new FileWriter(createPathToConfigFile(configName));
+			fw = new FileWriter(resolveConfigFile(configName));
 			fw.write(content);
 			
 			// add it into the scenarios list
@@ -178,7 +179,7 @@ public class AirportConfigFileManager {
 	 */
 	private LinkedList<String> searchConfigs() {
 		LinkedList<String> cf = new LinkedList<String>();
-		File folder = new File(PATH_TO_CONFIG_FOLDER);
+		File folder = resolveConfigFolder();
 		
 		// check if the path points to a folder.
 		if (!folder.isDirectory())
@@ -233,7 +234,7 @@ public class AirportConfigFileManager {
 		
 		BufferedImage image = null;
 		try {
-			image = ImageIO.read(new File("bw_world.jpg"));
+			image = ImageIO.read(resolveWorkingSimFile("bw_world.jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		} // end catch
@@ -364,6 +365,34 @@ public class AirportConfigFileManager {
 	public static String createPathToConfigFile(String configFileName) {
 		return PATH_TO_CONFIG_FOLDER  + configFileName + ".txt";
 	} // end createPathToConfigFile
+
+	private static File resolveConfigFolder() {
+		File direct = new File(PATH_TO_CONFIG_FOLDER);
+		if (direct.isDirectory())
+			return direct;
+		
+		File nested = new File(WORKING_SIM_ROOT + PATH_TO_CONFIG_FOLDER);
+		if (nested.isDirectory())
+			return nested;
+		
+		return direct;
+	}
+
+	private static File resolveConfigFile(String configFileName) {
+		File direct = new File(createPathToConfigFile(configFileName));
+		if (direct.isFile())
+			return direct;
+		
+		return new File(WORKING_SIM_ROOT + createPathToConfigFile(configFileName));
+	}
+
+	private static File resolveWorkingSimFile(String relativePath) {
+		File direct = new File(relativePath);
+		if (direct.isFile())
+			return direct;
+		
+		return new File(WORKING_SIM_ROOT + relativePath);
+	}
 	
 //	public static void main(String[] args) {
 //		SetUp su = new SetUp();
