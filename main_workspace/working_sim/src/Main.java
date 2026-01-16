@@ -489,7 +489,7 @@ public class Main extends Application {
 							GraphsMaker.healthy = totalHealthy + totalRecovered;
 							GraphsMaker.dead = totalDead;
 							GraphsMaker.infected = totalInfected;
-							if (iteration % 20 == 0) {
+							if (iteration % 20 == 0 && status.i < GraphsMaker.MAX_SAMPLES) {
 								GraphsMaker.itermult[status.i] = iteration;
 								GraphsMaker.infectedOniteration[status.i] = totalInfected;
 								GraphsMaker.deadOniteration[status.i] = totalDead;
