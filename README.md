@@ -1,6 +1,13 @@
 # cs371-project-pandemic
 JavaFX-based pandemic simulation with configurable scenarios, travel routes, and charts.
 
+## Purpose and technical scope
+This project demonstrates:
+- A discrete-time simulation engine (infection spread, recovery, death).
+- Data-driven scenarios and configurations (Gson JSON + config files).
+- Interactive JavaFX UI with charts and live state updates.
+- Separation of model, view, and control logic across focused classes.
+
 ## Project layout
 The simulation lives in `main_workspace/working_sim`:
 
@@ -23,46 +30,93 @@ The simulation lives in `main_workspace/working_sim`:
   - `high_fatalities.json`
 
 ## Requirements
-- Java (JDK)
-- JavaFX SDK
-- Gson (included in `external_libs/`)
+- Java JDK 11+ (JDK 17 works)
+- JavaFX SDK (OpenJFX)
+- Gson (included in `main_workspace/working_sim/external_libs/`)
 
-## Build and run (Linux/macOS)
-Define these paths first:
-
-- `PATH_TO_FX_LIB` - path to the `lib/` folder of your JavaFX SDK (example: `/Users/you/Library/javafx-sdk-11.0.2/lib`)
-- `PATH_TO_GSON_JAR` - path to `gson-2.8.6.jar` (found in `main_workspace/working_sim/external_libs`)
-
-### Command line
-From `main_workspace/working_sim`:
-
+## Download and run (all platforms)
+1) Clone the repo:
 ```bash
-javac --module-path PATH_TO_FX_LIB \
+git clone https://github.com/angelcamach0/cs371-project-pandemic.git
+cd cs371-project-pandemic
+```
+
+2) Go to the simulation folder:
+```bash
+cd main_workspace/working_sim
+```
+
+3) Build and run using the platform-specific guide below.
+
+## Run on Linux
+Install Java and JavaFX:
+```bash
+sudo apt-get update
+sudo apt-get install -y openjdk-17-jdk openjfx
+```
+
+Then build and run:
+```bash
+JFX_LIB=/usr/share/openjfx/lib
+
+javac --module-path "$JFX_LIB" \
   --add-modules javafx.controls,javafx.graphics,javafx.base \
   -cp external_libs/gson-2.8.6.jar src/*.java -d ./out/
 
 jar cvfm PandemicSim.jar MANIFEST.MF -C ./out/ .
 
-java --module-path PATH_TO_FX_LIB \
+java --module-path "$JFX_LIB" \
   --add-modules javafx.controls,javafx.graphics,javafx.base \
   -jar PandemicSim.jar
 ```
 
-### Ant
-Edit `main_workspace/working_sim/build.xml` and update:
+## Run on Windows
+Install:
+- JDK 11+ (Temurin/Adoptium recommended)
+- JavaFX SDK from https://openjfx.io/
 
-```xml
-<property name="fx.dir" value="PATH_TO_FX_LIB"/>
-<property name="gson.dir" value="PATH_TO_GSON_JAR"/>
+Set `JFX_LIB` to your JavaFX `lib` folder (example: `C:\javafx-sdk-17.0.10\lib`), then in PowerShell:
+```powershell
+$env:JFX_LIB="C:\javafx-sdk-17.0.10\lib"
+
+javac --module-path "$env:JFX_LIB" `
+  --add-modules javafx.controls,javafx.graphics,javafx.base \
+  -cp external_libs/gson-2.8.6.jar src/*.java -d ./out/
+
+jar cvfm PandemicSim.jar MANIFEST.MF -C ./out/ .
+
+java --module-path "$env:JFX_LIB" `
+  --add-modules javafx.controls,javafx.graphics,javafx.base \
+  -jar PandemicSim.jar
 ```
 
-Then from `main_workspace/working_sim`:
-
+## Run on macOS
+Install:
+- JDK 11+ (Temurin/Adoptium recommended)
+- JavaFX SDK from https://openjfx.io/ or via Homebrew:
 ```bash
-ant
-ant run
+brew install openjfx
 ```
 
+If installed via SDK, set `JFX_LIB` to the SDK `lib` folder. If installed via Homebrew, use:
+```bash
+JFX_LIB=$(brew --prefix openjfx)/lib
+```
+
+Then build and run:
+```bash
+javac --module-path "$JFX_LIB" \
+  --add-modules javafx.controls,javafx.graphics,javafx.base \
+  -cp external_libs/gson-2.8.6.jar src/*.java -d ./out/
+
+jar cvfm PandemicSim.jar MANIFEST.MF -C ./out/ .
+
+java --module-path "$JFX_LIB" \
+  --add-modules javafx.controls,javafx.graphics,javafx.base \
+  -jar PandemicSim.jar
+```
+
+## IDE setup (optional)
 ### Eclipse
 Import the project, add JavaFX and Gson to the build path, then set VM args:
 
