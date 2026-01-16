@@ -11,8 +11,10 @@ import com.google.gson.Gson;
 public class ScenarioFileManager {
 	private LinkedList<String> scenarios;
 	private final String PATH_TO_SCENARIOS = "scenario_files";
+	private final File scenariosDir;
 	
 	public ScenarioFileManager() {
+		scenariosDir = resolveWorkingSimDir(PATH_TO_SCENARIOS);
 		updateScenarioList();
 	}
 	
@@ -26,7 +28,7 @@ public class ScenarioFileManager {
 		BufferedReader br = null;
 		try {
 			// open the file
-			fr = new FileReader(PATH_TO_SCENARIOS + "/" + scenarioName + ".json");
+			fr = new FileReader(new File(scenariosDir, scenarioName + ".json"));
 			br = new BufferedReader(fr);
 			
 			// get the data
@@ -65,7 +67,7 @@ public class ScenarioFileManager {
 			content = gs.toJson(board);
 			
 			// write it in
-			fw = new FileWriter(PATH_TO_SCENARIOS + "/" + scenarioName + ".json");
+			fw = new FileWriter(new File(scenariosDir, scenarioName + ".json"));
 			fw.write(content);
 			
 			// add it into the scenarios list
@@ -91,7 +93,7 @@ public class ScenarioFileManager {
 	
 	// delete a sceranio
 	public boolean deleteScenario(String scenarioName) {
-		File file = new File(PATH_TO_SCENARIOS + "/" + scenarioName + ".json");
+		File file = new File(scenariosDir, scenarioName + ".json");
 		
 		// check if the file is a directory, as well as checking if it exists
 		if (file.isDirectory())
@@ -108,7 +110,7 @@ public class ScenarioFileManager {
 	// search for all scenarios in the scenarios folder
 	private LinkedList<String> searchScenario() {
 		LinkedList<String> sc = new LinkedList<String>();
-		File folder = new File(PATH_TO_SCENARIOS);
+		File folder = scenariosDir;
 		
 		// check if the path points to a folder.
 		if (!folder.isDirectory())
@@ -131,6 +133,18 @@ public class ScenarioFileManager {
 		
 		return sc;
 	} // end searchScenario
+
+	private static File resolveWorkingSimDir(String relativeDir) {
+		File direct = new File(relativeDir);
+		if (direct.isDirectory())
+			return direct;
+		
+		File nested = new File("main_workspace/working_sim/" + relativeDir);
+		if (nested.isDirectory())
+			return nested;
+		
+		return direct;
+	}
 	
 	public void updateScenarioList() {
 		scenarios = searchScenario();

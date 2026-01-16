@@ -16,13 +16,15 @@ import javafx.collections.FXCollections;
 
 public class GraphsMaker
 {
-	public static double[] infectedOniteration = new double[120];
+	public static final int MAX_SAMPLES = 100;
 	
-	public static double[] deadOniteration = new double [120];
+	public static double[] infectedOniteration = new double[MAX_SAMPLES];
 	
-	public static double[] recoveredOniteration = new double[120];
+	public static double[] deadOniteration = new double [MAX_SAMPLES];
 	
-	public static int[] itermult = new int[100];
+	public static double[] recoveredOniteration = new double[MAX_SAMPLES];
+	
+	public static int[] itermult = new int[MAX_SAMPLES];
 	
 	public static double healthy;
 	public static double dead;
@@ -57,7 +59,7 @@ public class GraphsMaker
 		XYChart.Series<Number, Number> data = new XYChart.Series<>();
 		int j = 0;
 		//iterations the num
-		while(itermult[j] != 0) {
+		while (j < MAX_SAMPLES && itermult[j] != 0) {
 			data.getData().add(new XYChart.Data<Number, Number>(itermult[j], infectedOniteration[j] / 1000));
 			System.out.println("entered data");
 			System.out.println(itermult[j] + " " + infectedOniteration[j]);
@@ -110,7 +112,7 @@ public class GraphsMaker
 		XYChart.Series<Number, Number> data = new XYChart.Series<>();
 		int j = 0;
 		//iterations the num
-		while(itermult[j] != 0) {
+		while (j < MAX_SAMPLES && itermult[j] != 0) {
 			data.getData().add(new XYChart.Data<Number, Number>(itermult[j], deadOniteration[j] / 1000));
 			System.out.println("entered data");
 			System.out.println(itermult[j] + " " + deadOniteration[j]);
@@ -160,7 +162,7 @@ HBox root = new HBox();
 		XYChart.Series<Number, Number> data = new XYChart.Series<>();
 		int j = 0;
 		//iterations the num
-		while(itermult[j] != 0) {
+		while (j < MAX_SAMPLES && itermult[j] != 0) {
 			data.getData().add(new XYChart.Data<Number, Number>(itermult[j], recoveredOniteration[j] / 1000));
 			System.out.println("entered data");
 			System.out.println(itermult[j] + " " + recoveredOniteration[j]);
