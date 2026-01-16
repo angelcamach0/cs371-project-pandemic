@@ -77,17 +77,6 @@ public class BoardUI  {
 				} // end if
 				
 				
-				else if (dead/alive >= 1 && dead/alive < 2) {
-					if (loc.color != null && loc.color.equals(GRAY) && opt) { 
-						
-						return;}
-		
-					drawPos(loc.row, loc.col, BoardUI.GRAY); 
-					
-					loc.color = GRAY;
-					return;
-				} // end if
-				
 				else if (dead/alive >= 2) {
 					if (loc.color != null && loc.color.equals(B) && opt) { 
 						
@@ -99,14 +88,14 @@ public class BoardUI  {
 					return;
 				} // end if
 				
-				else if (recovered/alive >= .5) {
-					if (loc.color != null && loc.color.equals(MAGENTA) && opt) { 
+				else if (dead/alive >= 1 && dead/alive < 2) {
+					if (loc.color != null && loc.color.equals(GRAY) && opt) { 
 						
 						return;}
 		
-					drawPos(loc.row, loc.col, BoardUI.MAGENTA); 
+					drawPos(loc.row, loc.col, BoardUI.GRAY); 
 					
-					loc.color = MAGENTA;
+					loc.color = GRAY;
 					return;
 				} // end if
 				
@@ -118,6 +107,17 @@ public class BoardUI  {
 					drawPos(loc.row, loc.col, BoardUI.PINK); 
 					
 					loc.color = PINK;
+					return;
+				} // end if
+				
+				else if (recovered/alive >= .5) {
+					if (loc.color != null && loc.color.equals(MAGENTA) && opt) { 
+						
+						return;}
+		
+					drawPos(loc.row, loc.col, BoardUI.MAGENTA); 
+					
+					loc.color = MAGENTA;
 					return;
 				} // end if
 			
