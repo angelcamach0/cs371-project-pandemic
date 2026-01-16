@@ -462,22 +462,38 @@ public class Main extends Application {
 						while (status.simulating) {
 							// do iter
 							testBoard.do_iter();;
-							// update info
-							show_alive.setText("Number of people alive: " + numFormat.format(testBoard.getTotalAlive()));
-							show_healthy.setText("Number of healthy people: "+ numFormat.format(testBoard.getTotalHealthy()) + "(" + percentFormat.format((testBoard.getTotalHealthy()/testBoard.getTotalStartPop())*100) +"%)");
-							show_inf.setText("Number of people infected: "+ numFormat.format(testBoard.getTotalInfected()) + "(" + percentFormat.format((testBoard.getTotalInfected()/testBoard.getTotalStartPop())*100) +"%)");
-							show_dead.setText("Number of people dead: " + numFormat.format(testBoard.getTotalDeath()) + "(" + percentFormat.format((testBoard.getTotalDeath()/testBoard.getTotalStartPop())*100) +"%)");
-							show_rec.setText("Number of people recovered: " + numFormat.format(testBoard.getTotalRecovered()) + "(" + percentFormat.format((testBoard.getTotalRecovered()/testBoard.getTotalStartPop())*100) +"%)");
-							show_iter.setText("Iteration: "+ testBoard.getIteration());
+							double totalAlive = testBoard.getTotalAlive();
+							double totalHealthy = testBoard.getTotalHealthy();
+							double totalInfected = testBoard.getTotalInfected();
+							double totalDead = testBoard.getTotalDeath();
+							double totalRecovered = testBoard.getTotalRecovered();
+							double totalStartPop = testBoard.getTotalStartPop();
+							int iteration = testBoard.getIteration();
+							
+							String aliveText = "Number of people alive: " + numFormat.format(totalAlive);
+							String healthyText = "Number of healthy people: " + numFormat.format(totalHealthy) + "(" + percentFormat.format((totalHealthy / totalStartPop) * 100) + "%)";
+							String infectedText = "Number of people infected: " + numFormat.format(totalInfected) + "(" + percentFormat.format((totalInfected / totalStartPop) * 100) + "%)";
+							String deadText = "Number of people dead: " + numFormat.format(totalDead) + "(" + percentFormat.format((totalDead / totalStartPop) * 100) + "%)";
+							String recoveredText = "Number of people recovered: " + numFormat.format(totalRecovered) + "(" + percentFormat.format((totalRecovered / totalStartPop) * 100) + "%)";
+							String iterText = "Iteration: " + iteration;
+							
+							Platform.runLater(() -> {
+								show_alive.setText(aliveText);
+								show_healthy.setText(healthyText);
+								show_inf.setText(infectedText);
+								show_dead.setText(deadText);
+								show_rec.setText(recoveredText);
+								show_iter.setText(iterText);
+							});
 							//Store data for charts
-							GraphsMaker.healthy = testBoard.getTotalHealthy() + testBoard.getTotalRecovered();;
-							GraphsMaker.dead = testBoard.getTotalDeath();
-							GraphsMaker.infected = testBoard.getTotalInfected();
-							if(testBoard.getIteration() % 20 == 0) {
-								GraphsMaker.itermult[status.i] = testBoard.getIteration();
-								GraphsMaker.infectedOniteration[status.i] = testBoard.getTotalInfected();
-								GraphsMaker.deadOniteration[status.i] = testBoard.getTotalDeath();
-								GraphsMaker.recoveredOniteration[status.i] = testBoard.getTotalRecovered();
+							GraphsMaker.healthy = totalHealthy + totalRecovered;
+							GraphsMaker.dead = totalDead;
+							GraphsMaker.infected = totalInfected;
+							if (iteration % 20 == 0) {
+								GraphsMaker.itermult[status.i] = iteration;
+								GraphsMaker.infectedOniteration[status.i] = totalInfected;
+								GraphsMaker.deadOniteration[status.i] = totalDead;
+								GraphsMaker.recoveredOniteration[status.i] = totalRecovered;
 								status.i++;
 							}//storing data for charts
           
